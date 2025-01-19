@@ -29,7 +29,10 @@ namespace CromSharp
         }
         private void TitleChanged(object sender, TitleChangedEventArgs e)
         {
-            this.Invoke(new MethodInvoker(() => { this.Text = e.Title; }));
+            if (this.IsHandleCreated && !this.IsDisposed)
+            {
+                this.Invoke(new MethodInvoker(() => { this.Text = e.Title; }));
+            }
         }
         public void favicon()
         {
