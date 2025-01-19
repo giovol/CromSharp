@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.toolbar = new System.Windows.Forms.Panel();
+            this.urlText = new System.Windows.Forms.TextBox();
             this.refresh = new System.Windows.Forms.PictureBox();
             this.forward = new System.Windows.Forms.PictureBox();
             this.back = new System.Windows.Forms.PictureBox();
-            this.urlText = new System.Windows.Forms.TextBox();
             this.browserPanel = new System.Windows.Forms.Panel();
             this.toolbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.refresh)).BeginInit();
@@ -51,6 +52,17 @@
             this.toolbar.Name = "toolbar";
             this.toolbar.Size = new System.Drawing.Size(800, 32);
             this.toolbar.TabIndex = 0;
+            // 
+            // urlText
+            // 
+            this.urlText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.urlText.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.urlText.Location = new System.Drawing.Point(114, 3);
+            this.urlText.Name = "urlText";
+            this.urlText.Size = new System.Drawing.Size(683, 27);
+            this.urlText.TabIndex = 6;
+            this.urlText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.urlText_KeyDown);
             // 
             // refresh
             // 
@@ -85,16 +97,6 @@
             this.back.TabStop = false;
             this.back.Click += new System.EventHandler(this.back_Click);
             // 
-            // urlText
-            // 
-            this.urlText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.urlText.Location = new System.Drawing.Point(114, 6);
-            this.urlText.Name = "urlText";
-            this.urlText.Size = new System.Drawing.Size(674, 20);
-            this.urlText.TabIndex = 6;
-            this.urlText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.urlText_KeyDown);
-            // 
             // browserPanel
             // 
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -111,6 +113,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.browserPanel);
             this.Controls.Add(this.toolbar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "CromSharp";
             this.Load += new System.EventHandler(this.Form1_Load);

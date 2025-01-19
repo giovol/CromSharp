@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows.Forms;
-using EasyTabs;
-using CefSharp.WinForms;
 using CefSharp;
+using CefSharp.WinForms;
 
 namespace CromSharp
 {
@@ -22,22 +16,39 @@ namespace CromSharp
         ChromiumWebBrowser chromiumWebBrowser;
         private void Form1_Load(object sender, EventArgs e)
         {
-            CefSettings settings = new CefSettings();
-            Cef.Initialize(settings);
             urlText.Text = "https://google.com";
             chromiumWebBrowser = new ChromiumWebBrowser(urlText.Text);
             this.browserPanel.Controls.Add(chromiumWebBrowser);
             chromiumWebBrowser.Dock = DockStyle.Fill;
             chromiumWebBrowser.AddressChanged += AddressChanged;
+            chromiumWebBrowser.TitleChanged += TitleChanged;
         }
         private void AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            this.Invoke(new MethodInvoker(() => { urlText.Text = e.Address; }));
+            this.Invoke(new MethodInvoker(() => { urlText.Text = e.Address; favicon(); }));
+        }
+        private void TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+            this.Invoke(new MethodInvoker(() => { this.Text = e.Title; }));
+        }
+        public void favicon()
+        {
+            Uri url = new Uri("https://" + new Uri(chromiumWebBrowser.Address).Host + "/favicon.ico");
+            try
+            {
+                Icon img = new Icon(new System.IO.MemoryStream(new
+                WebClient().DownloadData(url)));
+                this.Icon = img;
+            }
+            catch (Exception)
+            {
+                this.Icon = Properties.Resources.icon;
+            }
         }
 
         private void urlText_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 chromiumWebBrowser.Load(urlText.Text);
             }
@@ -45,7 +56,7 @@ namespace CromSharp
 
         private void refresh_Click(object sender, EventArgs e)
         {
-            chromiumWebBrowser.Refresh();
+            chromiumWebBrowser.Reload();
         }
 
         private void forward_Click(object sender, EventArgs e)
@@ -58,7 +69,7 @@ namespace CromSharp
 
         private void back_Click(object sender, EventArgs e)
         {
-            if(chromiumWebBrowser.CanGoBack)
+            if (chromiumWebBrowser.CanGoBack)
             {
                 chromiumWebBrowser.Back();
             }
